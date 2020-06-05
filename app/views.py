@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import OrderForm, CreateUserForm
+from .models import MyData
 # Create your views here.
 def registerPage(request):
 	if request.user.is_authenticated:
@@ -42,4 +43,8 @@ def logoutUser(request):
 
 @login_required(login_url='login')
 def index(request):
-    return render(request,'base.html')
+	user=request.user
+	obj=MyData.objects.filter(user=user)
+	for i in obj:
+		print(i.data)
+	return render(request,'app/index.html',{'obj':obj})

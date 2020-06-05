@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class='row mt-5'>
+    <div class='col-md-4 mx-auto col-10'>
+        <form class='form' id='create-work' method='POST' action='/create-work'>
+            {% csrf_token %}
+            <div class='d-none alert alert-danger' id='tweet-create-form-error'></div>
+            <input type='hidden' value='/' name='next'>
+            <textarea required='required' class='form-control' name='content' placeholder='Add Your work...'></textarea>
+            <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+                <i class="material-icons right">send</i>
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock body %}
+{% block js %}
+<script>
+    const CreateWormEl = document.getElementById("create-work");
+    CreateWormEl.addEventListener("submit", handleCreateWormDidSumbit)
+
+</script>
+{% endblock js %}
