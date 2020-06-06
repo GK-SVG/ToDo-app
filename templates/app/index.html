@@ -1,16 +1,34 @@
 {% extends 'base.html' %}
+{% block css %}
+.data{
+     font-size:1.4rem;
+}
+{% endblock css %}
 {% block body %}
 <div class='row mt-5'>
-    <div class='col-md-4 mx-auto col-10'>
+    <div class='col-md-6 mx-auto col-10'>
+    <div class="border border-info rounded" style="height:170px;width:720px;">
         <form class='form' id='create-work' method='POST' action='/create-work'>
             {% csrf_token %}
             <div class='d-none alert alert-danger' id='tweet-create-form-error'></div>
+            <input type='hidden'>
+            <textarea required='required' class='form-control m-2 border-info' name='content' style="width:700px;" placeholder='Add Your Title...'></textarea>
             <input type='hidden' value='/' name='next'>
-            <textarea required='required' class='form-control' name='content' placeholder='Add Your work...'></textarea>
-            <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+            <textarea required='required' class='form-control m-2 border-info' name='content'  style="width:700px;" placeholder='Add Your Work...'></textarea>
+            <button class="btn waves-effect waves-light m-2" type="submit" name="action">Submit
                 <i class="material-icons right">send</i>
             </button>
         </form>
+        </div> 
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        {% for text in obj %}
+    <div class="col-md-12 col-12 border-bottom my-2">
+       <p class="data">{{text.data}}</p>
+    </div>
+    {% endfor %}
     </div>
 </div>
 {% endblock body %}
