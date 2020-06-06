@@ -1,4 +1,5 @@
 from django.shortcuts import render,HttpResponse,redirect
+from django.http import JsonResponse
 from django.forms import inlineformset_factory
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
@@ -45,6 +46,28 @@ def logoutUser(request):
 def index(request):
 	user=request.user
 	obj=MyData.objects.filter(user=user)
-	for i in obj:
-		print(i.data)
 	return render(request,'app/index.html',{'obj':obj})
+
+@login_required(login_url='login')
+def createdata(request):
+	if request.method=='POST':
+		user= request.user
+		title=request.POST.get('title')
+		data=request.POST.get('content')
+		userdata=MyData(user=user,title=title,data=data)
+		userdata.save()
+		return redirect('/')
+
+
+
+@login_required(login_url='login')
+def getdata(request):
+	if request.method=='GET':
+		obj=MyData.objects.all()
+		print(obj)
+		return redirect('/')
+@login_required(login_url='login')
+def deletedata(request,id):
+	if request.method=='POST':
+		MyData.objects.filter(id=id).delete()
+	return redirect('/')
