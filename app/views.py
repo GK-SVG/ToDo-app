@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import OrderForm, CreateUserForm
 from .models import MyData
 # Create your views here.
+
 def registerPage(request):
 	if request.user.is_authenticated:
 		return redirect('/')
@@ -22,52 +23,58 @@ def registerPage(request):
 				return redirect('/')
 		context = {'form':form}
 		return render(request, 'app/register.html', context)
-
+        
+	
 def loginPage(request):
-	if request.user.is_authenticated:
-		return redirect('/')
-	else:
-		if request.method == 'POST':
-			username = request.POST.get('username')
-			password =request.POST.get('password')
-			user = authenticate(request, username=username, password=password)
-			if user is not None:
-				login(request, user)
-				return redirect('/')
-			else:
-				messages.info(request, 'Username OR password is incorrect')
-		context = {}
-		return render(request, 'app/login.html', context)
+    if request.user.is_authenticated:
+        return redirect('/')
+    else:
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('/')
+            else:
+                messages.info(request, 'Username OR password is incorrect')
+        context = {}
+        return render(request, 'app/login.html', context)
+
+
 def logoutUser(request):
-	logout(request)
-	return redirect('login')
+    logout(request)
+    return redirect('login')
+
 
 @login_required(login_url='login')
 def index(request):
-	user=request.user
-	obj=MyData.objects.filter(user=user)
-	return render(request,'app/index.html',{'obj':obj})
+    user = request.user
+    obj = MyData.objects.filter(user=user)
+    return render(request, 'app/index.html', {'obj': obj})
+
 
 @login_required(login_url='login')
 def createdata(request):
-	if request.method=='POST':
-		user= request.user
-		title=request.POST.get('title')
-		data=request.POST.get('content')
-		userdata=MyData(user=user,title=title,data=data)
-		userdata.save()
-		return redirect('/')
-
+    if request.method == 'POST':
+        user = request.user
+        title = request.POST.get('title')
+        data = request.POST.get('content')
+        userdata = MyData(user=user, title=title, data=data)
+        userdata.save()
+        return redirect('/')
 
 
 @login_required(login_url='login')
 def getdata(request):
-	if request.method=='GET':
-		obj=MyData.objects.all()
-		print(obj)
-		return redirect('/')
+    if request.method == 'GET':
+        obj = MyData.objects.all()
+        print(obj)
+        return redirect('/')
+
+
 @login_required(login_url='login')
-def deletedata(request,id):
-	if request.method=='POST':
-		MyData.objects.filter(id=id).delete()
-	return redirect('/')
+def deletedata(request, id):
+    if request.method == 'POST':
+        MyData.objects.filter(id=id).delete()
+    return redirect('/')
