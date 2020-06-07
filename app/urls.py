@@ -8,6 +8,6 @@ urlpatterns = [
     path('create-work',views.createdata,name='CreateData'),
     path('getData/',views.getdata,name='GetData'),
     path('delete/<int:id>',views.deletedata,name='DeleteData'),
-    path('',views.index,name='Home'),
-    
+    path('search/',views.search,name='search'),
+    path('',views.index,name='Home'),   
 ]

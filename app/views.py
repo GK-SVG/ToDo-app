@@ -78,3 +78,20 @@ def deletedata(request, id):
     if request.method == 'POST':
         MyData.objects.filter(id=id).delete()
     return redirect('/')
+
+@login_required(login_url='login')
+def search(request):
+    query = request.GET.get('query')
+    searchData = []
+    if len(query)==0:
+        return redirect('/')
+    if len(query)>80:
+        searchData = []
+    else:
+        Title = MyData.objects.filter(title__icontains=query)
+        Contant = MyData.objects.filter(data__icontains=query)
+        searchData =Title.union(Contant)
+    if searchData.count==0:
+        messages.warning(request,"No search Found please refine your search ")
+    print(searchData)
+    return render(request,'app/search.html',{'blogs':searchData, 'query': query})

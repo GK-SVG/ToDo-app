@@ -5,6 +5,13 @@ font-size:1.4rem;
 }
 {% endblock css %}
 {% block body %}
+<div class="container">
+    <form action='/search/' method="get">
+      <input type="text" name="query" placeholder="search">
+      <button class="btn waves-effect waves-light" type="submit">Search
+          <i class="material-icons right">send</i>
+      </button></form>
+</div>
 <div class='row mt-5'>
     <div class='col-md-6 mx-auto col-10'>
         <div class="border border-info rounded" style="height:170px;width:720px;">
@@ -18,7 +25,7 @@ font-size:1.4rem;
                 <textarea required='required' class='form-control m-2 border-info' name='content' style="width:700px;"
                     placeholder='Add Your Work...'></textarea>
                 <button class="btn waves-effect waves-light m-2" type="submit" name="action">Save
-                    <i class="material-icons right">send</i>
+                    <i class="material-icons right">save</i>
                 </button>
             </form>
         </div>
@@ -27,7 +34,7 @@ font-size:1.4rem;
 <div class="container">
     {% for data in obj %}
     <div class="col-md-12 border-info border rounded my-2">
-        <h4>{{data.title}}</h4>
+        <h4>{{data.title}}</h4><p>{{data.timespan}}</p>
         <p style="color:#46d6e3; font-size: 1.4rem;">{{data.data}}</p>
         <form  method='POST' action='delete/{{data.id}}'>
             {% csrf_token %}
