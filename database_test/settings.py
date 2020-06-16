@@ -76,21 +76,10 @@ WSGI_APPLICATION = 'database_test.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'accounts',
-        'USER': 'postgres',
-        'PASSWORD': 'gautam2520032',
-        'HOST': 'localhost',
-        'PORT': '5432'
-        
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-# DATABASES = {
-#     # ...
-#     'OPTIONS': {
-#         'isolation_level': psycopg2.extensions.ISOLATION_LEVEL_SERIALIZABLE,
-#     },
-# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -136,3 +125,11 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 ) 
 
+import django_heroku
+django_heroku.settings(locals())
+
+import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
