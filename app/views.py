@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import OrderForm, CreateUserForm
 from .models import MyData
+from django.contrib.postgres.search import SearchVector
 # Create your views here.
 
 def registerPage(request):
@@ -82,15 +83,19 @@ def deletedata(request, id):
 @login_required(login_url='login')
 def search(request):
     query = request.GET.get('query')
-    searchData = []
+    alldata=MyData.objects.all()
+    searchData=[]
+    print(query)
     if len(query)==0:
         return redirect('/')
     if len(query)>80:
         searchData = []
     else:
-        Title = MyData.objects.filter(title__icontains=query)
-        Contant = MyData.objects.filter(data__icontains=query)
-        searchData=Title.union(Contant)
+        for i in range(len(alldata)):
+            if query in alldata[i].title or query in alldata[i].data:
+                print(alldata[i])
+                searchData.append(alldata[i])
     if searchData.count==0:
         messages.warning(request,"No search Found please refine your search ")
-    return render(request,'app/search.html',{'blogs':searchData, 'query': query})
+    print(searchData)
+    return render(request,'app/search.html',{'searchData':searchData, 'query': query})
