@@ -24,7 +24,6 @@ SECRET_KEY = '%!hzpms0&@4h8j3+2$je!us3bdlc3vi*_e$7_ubi(^#(3^dt+i'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-
 ALLOWED_HOSTS = ['my1todo.herokuapp.com','localhost']
 
 
@@ -38,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app',
+    'my_app'
 ]
 
 MIDDLEWARE = [

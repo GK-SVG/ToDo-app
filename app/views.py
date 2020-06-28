@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import OrderForm, CreateUserForm
 from .models import MyData
-from django.contrib.postgres.search import SearchVector
+
 # Create your views here.
 
 def registerPage(request):

@@ -1,6 +1,9 @@
-* 
-  .hello-msg{
-    font-size: 18px;
-    color: rgb(0, 0, 0);
-    margin-right: 20px;
-  }
+.card {
+    height: 400px; /* Your height here */
+    overflow: hidden;
+}
+
+.card-image {
+    height: 250px; /* Your height here */
+    overflow: hidden;
+}
