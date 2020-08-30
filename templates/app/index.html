@@ -15,7 +15,7 @@ font-size:1.4rem;
 <div class='row mt-5'>
     <div class='col-md-6 mx-auto'>
         <div class="border border-info rounded" style="height:100%;width:100%;">
-            <form class='form' method='POST' action='create-work'>
+            <form id="to-do" class='form' method='POST' action='create-work'>
                 {% csrf_token %}
                 <div class='d-none alert alert-danger' id='tweet-create-form-error'></div>
                 <input type='hidden'>
@@ -37,7 +37,7 @@ font-size:1.4rem;
         <h4>{{data.title}}</h4>
         <p>{{data.timespan}}</p>
         <p style="color:#46d6e3; font-size: 1.4rem;">{{data.data}}</p>
-        <form method='POST' action='delete/{{data.id}}'>
+        <form  method='POST' action='delete/{{data.id}}'>
             {% csrf_token %}
             <button class="btn waves-effect waves-light m-2" type="submit" name="action">Delete
                 <i class="material-icons right">delete</i>
@@ -49,5 +49,34 @@ font-size:1.4rem;
 {% endblock body %}
 
 {% block js %}
+<script>
+    const work_todo = document.getElementById("to-do")
+    work_todo.addEventListener("submit",handlework_todo)
+    function handlework_todo(event){
+        event.preventDefault()
+        const myForm= event.target
+        const myFormData = new FormData(myForm)
+        const url = myForm.getAttribute("action")
+        const method = myForm.getAttribute("method")
+        const xhr = new XMLHttpRequest()
+        const responseType = "json"
+        xhr.responseType = responseType
+        xhr.open(method, url)
+        xhr.setRequestHeader("HTTP_X_REQUESTED_WITH", "XMLHttpRequest")
+        xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest")
+        xhr.onload = function(){
 
+        }
+        xhr.send()
+    }
+
+    function load_work_todo(){
+        const xhr = new XMLHttpRequest()
+        const method = 'GET' // "POST"
+        const url = 'getdata/'
+        const responseType = "json"
+        xhr.responseType = responseType
+        xhr.open(method, url)
+    }
+</script>
 {% endblock js %}
